@@ -64,23 +64,16 @@ public class PageController {
     @RequestMapping("/detail-product")
     public  String detailProductPage(@RequestParam("id") int id, Model model){
         Product product = productService.findById(id);
-        if (product != null){
-            model.addAttribute("product", product);
-            return "detail-product";
-        }else {
-            return "404";
-        }
+        model.addAttribute("product", product);
+        return "detail-product";
+
     }
 
     @RequestMapping("/form-edit-product")
     public  String editProductPage(@RequestParam("id") int id, Model model){
         Product product = productService.findById(id);
-        if (product != null){
-            model.addAttribute("product", product);
-            return "edit-product";
-        }else {
-            return "404";
-        }
+        model.addAttribute("product", product);
+        return "edit-product";
     }
 
 

@@ -11,7 +11,7 @@
 
 <div class="container-fluid">
     <h1>Sửa thông tin sản phẩm</h1>
-    <form action="/exercise14/edit" method="post">
+    <form action="/exercise14/edit" method="post" enctype="multipart/form-data">
 
         <div class="mb-3">
             <label for="id" class="form-label">Id sản phẩm: </label>
@@ -24,8 +24,15 @@
         </div>
 
         <div class="mb-3">
-            <label for="imageUrl" class="form-label">Ảnh sản phẩm: </label>
-            <input type="text" class="form-control" id="imageUrl" name="imageUrl" value="${product.imageUrl}">
+            <label for="file" class="form-label">Ảnh sản phẩm: </label>
+            <div class="d-flex flex-column">
+                <div class=" d-flex gap-3">
+                    <p >Ảnh hiện tại: </p>
+                    <img src="${product.imageUrl}" class="w-25" alt="Chưa có ảnh">
+                </div>
+                <input type="hidden" name="imageUrl" value="${product.imageUrl}">
+            </div>
+            <input type="file" class="form-control mt-3" id="file" name="file">
         </div>
 
         <div class="mb-3">

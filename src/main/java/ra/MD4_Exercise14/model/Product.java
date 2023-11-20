@@ -7,19 +7,20 @@ public class Product {
     private double price;
     private String desc;
     private int stock;
-    private boolean status;
+    private boolean status = true;
 
     public Product() {
     }
 
-    public Product(String name, String imageUrl, double price, String desc, int stock, boolean status) {
+    public Product(String name, String imageUrl, double price, String desc, int stock) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.price = price;
         this.desc = desc;
         this.stock = stock;
-        this.status = status;
     }
+
+
 
     public Product(int id, String name, String imageUrl, double price, String desc, int stock, boolean status) {
         this.id = id;

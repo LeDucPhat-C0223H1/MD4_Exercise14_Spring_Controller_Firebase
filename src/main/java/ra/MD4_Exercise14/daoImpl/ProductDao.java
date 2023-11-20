@@ -19,12 +19,11 @@ public class ProductDao implements IProductDao {
     public List<Product> findAll() {
         Connection conn = ConnectDB.getConnection();
         List<Product> list = new ArrayList<>();
-        Product product;
         try {
             CallableStatement callSt = conn.prepareCall("{call Proce_Find_All_Product()}");
             ResultSet rs = callSt.executeQuery();
             while (rs.next()) {
-                product = new Product();
+                Product product = new Product();
                 product.setId(rs.getInt("id"));
                 product.setName(rs.getString("name"));
                 product.setImageUrl(rs.getString("imageUrl"));
@@ -50,7 +49,7 @@ public class ProductDao implements IProductDao {
             CallableStatement callSt = conn.prepareCall("{call Proce_Find_Product_By_Id(?)}");
             callSt.setInt(1,id);
             ResultSet rs = callSt.executeQuery();
-            while (rs.next()){
+            if (rs.next()){
                 product = new Product();
                 product.setId(rs.getInt("id"));
                 product.setName(rs.getString("name"));
@@ -72,41 +71,34 @@ public class ProductDao implements IProductDao {
     public boolean save(Product product) {
         Connection conn = ConnectDB.getConnection();
         CallableStatement callSt = null;
-        Product oldProduct = findById(product.getId());
-        if (oldProduct == null) {
-            // thêm mới
             try {
-                callSt = conn.prepareCall("{call Proce_Insert_Product(?,?,?,?,?,?)}");
-                callSt.setString(1, product.getName());
-                callSt.setString(2, product.getImageUrl());
-                callSt.setDouble(3, product.getPrice());
-                callSt.setString(4, product.getDesc());
-                callSt.setInt(5, product.getStock());
-                callSt.setBoolean(6,product.isStatus());
-                callSt.executeUpdate();
+                if (findById(product.getId()) == null) {
+                    // thêm mới
+                    callSt = conn.prepareCall("{call Proce_Insert_Product(?,?,?,?,?,?)}");
+                    callSt.setString(1, product.getName());
+                    callSt.setString(2, product.getImageUrl());
+                    callSt.setDouble(3, product.getPrice());
+                    callSt.setString(4, product.getDesc());
+                    callSt.setInt(5, product.getStock());
+                    callSt.setBoolean(6, product.isStatus());
+                    callSt.executeUpdate();
+                }else {
+                    // cập nhật
+                    callSt = conn.prepareCall("{call Proce_Update_Product_By_Id(?,?,?,?,?,?,?)}");
+                    callSt.setInt(1, product.getId());
+                    callSt.setString(2, product.getName());
+                    callSt.setString(3, product.getImageUrl());
+                    callSt.setDouble(4, product.getPrice());
+                    callSt.setString(5, product.getDesc());
+                    callSt.setInt(6, product.getStock());
+                    callSt.setBoolean(7, product.isStatus());
+                    callSt.executeUpdate();
+                }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             } finally {
                 ConnectDB.closeConnection(conn);
             }
-        }else {
-            // cập nhật
-            try {
-                callSt = conn.prepareCall("{call Proce_Update_Product_By_Id(?,?,?,?,?,?,?)}");
-                callSt.setInt(1,product.getId());
-                callSt.setString(2, product.getName());
-                callSt.setString(3, product.getImageUrl());
-                callSt.setDouble(4, product.getPrice());
-                callSt.setString(5, product.getDesc());
-                callSt.setInt(6, product.getStock());
-                callSt.setBoolean(7,product.isStatus());
-                callSt.executeUpdate();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } finally {
-            ConnectDB.closeConnection(conn);
-        }
-        }
         return true;
     }
 

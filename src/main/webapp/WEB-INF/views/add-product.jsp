@@ -11,7 +11,7 @@
 
 <div class="container-fluid">
     <h1>Thêm mới sản phẩm</h1>
-    <form action="/exercise14/add" method="post">
+    <form action="/exercise14/add" method="post" enctype="multipart/form-data">
 
         <div class="mb-3">
             <label for="name" class="form-label">Tên sản phẩm: </label>
@@ -19,8 +19,8 @@
         </div>
 
         <div class="mb-3">
-            <label for="imageUrl" class="form-label">Ảnh sản phẩm: </label>
-            <input type="text" class="form-control" id="imageUrl" name="imageUrl">
+            <label for="file" class="form-label">Ảnh sản phẩm: </label>
+            <input type="file" class="form-control" id="file" name="file">
         </div>
 
         <div class="mb-3">
@@ -39,13 +39,13 @@
         </div>
 
 
-        <div class="mb-3">
-            <label for="status" class="form-label">Trạng thái: </label>
-            <select  id="status" name="status">
-                <option value="true"  >Đang bán</option>
-                <option value="false" >Ngừng bán</option>
-            </select>
-        </div>
+<%--        <div class="mb-3">--%>
+<%--            <label for="status" class="form-label">Trạng thái: </label>--%>
+<%--            <select  id="status" name="status">--%>
+<%--                <option value="true"  >Đang bán</option>--%>
+<%--                <option value="false" >Ngừng bán</option>--%>
+<%--            </select>--%>
+<%--        </div>--%>
 
         <input class="btn btn-primary" type="submit" value="ADD">
     </form>
